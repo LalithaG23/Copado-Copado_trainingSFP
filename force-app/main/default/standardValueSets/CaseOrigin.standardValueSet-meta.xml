@@ -22,11 +22,6 @@
         <label>Chatter Answers</label>
     </standardValue>
     <standardValue>
-        <fullName>WhatsApp</fullName>
-        <default>false</default>
-        <label>WhatsApp</label>
-    </standardValue>
-    <standardValue>
         <fullName>Industry</fullName>
         <default>false</default>
         <label>Industry</label>
