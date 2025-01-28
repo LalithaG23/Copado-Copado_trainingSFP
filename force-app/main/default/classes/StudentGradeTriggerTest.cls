@@ -1,29 +1,35 @@
 @isTest
 public class StudentGradeTriggerTest {
     @isTest
-    static void testGradeCalculation() {
-        // Test for Grade A
-        Student__c studentA = new Student__c(Marks__c = 95);
-        insert studentA;
-        studentA = [SELECT Grade__c FROM Student__c WHERE Id = :studentA.Id];
-        System.assertEquals('A', studentA.Grade__c);
-
-        // Test for Grade B
-        Student__c studentB = new Student__c(Marks__c = 80);
-        insert studentB;
-        studentB = [SELECT Grade__c FROM Student__c WHERE Id = :studentB.Id];
-        System.assertEquals('B', studentB.Grade__c);
-
-        // Test for Grade C
-        Student__c studentC = new Student__c(Marks__c = 60);
-        insert studentC;
-        studentC = [SELECT Grade__c FROM Student__c WHERE Id = :studentC.Id];
-        System.assertEquals('C', studentC.Grade__c);
-
-        // Test for Grade F
-        Student__c studentF = new Student__c(Marks__c = 40);
-        insert studentF;
-        studentF = [SELECT Grade__c FROM Student__c WHERE Id = :studentF.Id];
-        System.assertEquals('F', studentF.Grade__c);
+    static void testStudentGradeTrigger() {
+        // Test data setup
+        List<Student__c> students = new List<Student__c>{
+            new Student__c(Name = 'Student A', Marks__c = 95),
+            new Student__c(Name = 'Student B', Marks__c = 85),
+            new Student__c(Name = 'Student C', Marks__c = 75),
+            new Student__c(Name = 'Student D', Marks__c = 65),
+            new Student__c(Name = 'Student E', Marks__c = 55),
+            new Student__c(Name = 'Student F', Marks__c = 45)
+        };
+        
+        // Insert students
+        insert students;
+        
+        // Verify grades
+        students = [SELECT Name, Marks__c, Grade__c FROM Student__c];
+        System.assertEquals('A', students[0].Grade__c);
+        System.assertEquals('B', students[1].Grade__c);
+        System.assertEquals('C', students[2].Grade__c);
+        System.assertEquals('D', students[3].Grade__c);
+        System.assertEquals('E', students[4].Grade__c);
+        System.assertEquals('F', students[5].Grade__c);
+        
+        // Update student marks
+        students[0].Marks__c = 50;
+        update students[0];
+        
+        // Verify updated grade
+        students = [SELECT Name, Marks__c, Grade__c FROM Student__c WHERE Name = 'Student A'];
+        System.assertEquals('E', students[0].Grade__c);
     }
 }
